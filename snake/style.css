@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.grid {
+  border: 2px solid black;
+}
+
+#board {
+  background-color: pink;
+  height: 50vw;
+  width: 90vw;
+}
+
+.blocks {
+  display: inline-block;
+}
+
+.field {
+  height: 1vw;
+  width: 1vw;
+  background-color: #f5f5dc;
+  position: relative;
+}
+
+.snake {
+  height: 1vw;
+  width: 1vw;
+  background-color: #39FF14;
+  position: relative;
+}
+
+.head {
+  height: 1vw;
+  width: 1vw;
+  background-color: #30D911;
+  position: relative;
+}
+
+.apple {
+  height: 1vw;
+  width: 1vw;
+  background-color: #FF3A59;
+  position: relative;
+}
