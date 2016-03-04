@@ -1,74 +1,19 @@
 window.onload = function() {
   console.log("JS loaded");
-  activateKeys();
-  snake.draw();
-  snake.action();
-  snake.appleRando();
-}
-// I need a to grow snake upon approach.
-// I need to fix the go horizontal grow bug where both grow and move work.
-// I need to put walls and die when I hit them and hit self (snake) -- perhaps a die function
-// I need to make the apple disappear when I eat it.
-var board = document.getElementById('board');
-var activateKeys = function () {
-  document.onkeydown = function(e) {
-      switch (e.keyCode) {
-          case 37:
-              goLeft();
-              break;
-          case 38:
-              goUp();
-              break;
-          case 39:
-              goRight();
-              break;
-          case 40:
-              goDown();
-              break;
-      }
-    }
-}
-var goRight = function (){
-  if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[2][0]) === snake.apple[0]) &&
-      ((snake.parts[snake.parts.length - 1][1] + snake.direction[2][1]) === snake.apple[1]) ){
-      snake.growR();
-    snake.orientation = "right";
-  } else if ((snake.orientation !== "left")&&( snake.orientation !== "right")) {
-      snake.moveR()
-    snake.orientation = "right";
-  }
-}
-var goLeft = function (){
-  if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[3][0] ) === snake.apple[0]) &&
-      ((snake.parts[snake.parts.length - 1][1] + snake.direction[3][1]) === snake.apple[1]) ){
-        snake.growL();
-  } else if ((snake.orientation !== "left")&&( snake.orientation !== "right") ) {
-      snake.moveL()
-    snake.orientation = "left";
-  }
-}
-var goUp = function (){
-  if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[1][0] ) === snake.apple[0]) &&
-      ((snake.parts[snake.parts.length - 1][1] + snake.direction[1][1]) === snake.apple[1]) ){
-        snake.growU();
-  } else if ((snake.orientation !== "up")&&( snake.orientation !== "down")){
-      snake.moveU()
-    snake.orientation = "up";
-  }
-}
-var goDown = function (){
-  if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[0][0] ) === snake.apple[0]) &&
-      ((snake.parts[snake.parts.length - 1][1] + snake.direction[0][1]) === snake.apple[1]) ){
-        snake.growD();
-  } else if ((snake.orientation !== "up")&&( snake.orientation !== "down")) {
-      snake.moveD()
-    snake.orientation = "down";
-  }
+  snake.play();
 }
 
 var snake = {
+  play: function(){
+    snake.activateKeys();
+    snake.draw();
+    snake.action();
+    snake.appleRando();
+  },
+  game: true,
   size: 40,
   time: 100,
+  score: 0,
   parts : [ // a part is a [row, col] combo
     [0, 0], // tail
     [0, 1],
@@ -86,25 +31,48 @@ var snake = {
       board.innerHTML= "";
       snake.draw();
     }
-  } , 4000)},
+  } , snake.appleTime)},
+  applePoofScore: function(){
+    snake.apple[0]= -100;
+    snake.apple[1]= -100;
+    snake.score += 1;
+    console.log(snake.score)
+  },
+  appleTime: 4000,
   apple: [10, 10],
   direction: [[0, 1], // direction is a [row, col] "vector" >> DOWN
               [0,-1], // >> UP
               [1,0], // >> RIGHT
               [-1,0]], // >> LEFT
   orientation: "",
+
   action:  function() {
-    setInterval( function(){
-    if (snake.orientation =="right") {
-        snake.moveR()
-    } else if (snake.orientation === "left") {
-          snake.moveL()
-    } else if (snake.orientation === "up") {
-          snake.moveU()
-    } else if (snake.orientation === "down") {
-          snake.moveD()
+    if(snake.game){
+        act = setInterval( function(){
+        if (snake.orientation =="right") {
+            snake.goRight()
+        } else if (snake.orientation === "left") {
+              snake.goLeft()
+        } else if (snake.orientation === "up") {
+              snake.goUp()
+        } else if (snake.orientation === "down") {
+              snake.goDown()
+        }
+      }
+    , snake.time)
     }
-  } , snake.time)},
+  },
+
+  act: act = null,
+
+  die: function(){
+    // snake.game = false;
+    clearInterval(act);
+    alert("GAME OVER! You scored " + snake.score + " points!")
+  },
+
+  board: board = document.getElementById('board'),
+
   draw: function (){
     for(var rw = 0; rw < this.size; rw++){                       // rw is for rows
         var row = document.createElement("div");
@@ -125,6 +93,60 @@ var snake = {
         board.appendChild(row);
     }
   },
+
+  activateKeys: function () {
+      document.onkeydown = function(e) {
+        // if (snake.game) {
+          switch (e.keyCode) {
+              case 37:
+              if ((snake.orientation !== "left")&&( snake.orientation !== "right")) {
+                  snake.goLeft();
+                  break;
+                } else {
+                  break;
+                };
+              case 38:
+              if ((snake.orientation !== "up")&&( snake.orientation !== "down")){
+                  snake.goUp();
+                  break;
+                } else {
+                  break;
+                };
+              case 39:
+              if ((snake.orientation !== "left")&&( snake.orientation !== "right")) {
+                  snake.goRight();
+                  break;
+                } else {
+                  break;
+                };
+              case 40:
+              if ((snake.orientation !== "up")&&( snake.orientation !== "down")){
+                  snake.goDown();
+                  break;
+                } else {
+                  break;
+                };
+          }
+        // }
+      }
+  },
+
+  checkDeath: function() {
+    if( (snake.parts[snake.parts.length - 1][0] > snake.size-1) ||
+        (snake.parts[snake.parts.length - 1][0] < 0) ||
+        (snake.parts[snake.parts.length - 1][1] > snake.size-1 ) ||
+        (snake.parts[snake.parts.length - 1][1] < 0 ) ) {
+        snake.die();
+      console.log("FUCK YOU DEAD!")
+    }
+    for(var part = 0 ; part < snake.parts.length -1; part++ ){
+      if ( (snake.parts[snake.parts.length - 1][0] === snake.parts[part][0] ) &&
+      (  snake.parts[snake.parts.length - 1][1] === snake.parts[part][1] )) {
+        snake.die();
+        console.log("YOU FUCKING YO SELF!")
+      }
+    }
+  },
   moveR: function () {
     // remove the "tail"
     this.parts.shift()                                              //just going to remove the last
@@ -137,12 +159,13 @@ var snake = {
     this.draw();
   },
   growR: function () {  // add a "head" in the current direction
-    console.log("WORKING");
+    console.log("grew RIGHT");
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[2][0], //head RIGHT X
         this.parts[this.parts.length - 1][1] + this.direction[2][1]] //head RIGHT Y
     )
     board.innerHTML= "";
+    snake.applePoofScore();
     this.draw();
   },
   moveL: function () {
@@ -157,11 +180,13 @@ var snake = {
     this.draw();
   },
   growL: function () {  // add a "head" in the current direction
+      console.log("grew LEFT");
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[3][0], //head LEFT X
         this.parts[this.parts.length - 1][1] + this.direction[3][1]] //head LEFT Y
     )
     board.innerHTML= "";
+    snake.applePoofScore();
     this.draw();
   },
   moveU: function () {
@@ -176,11 +201,13 @@ var snake = {
     this.draw();
   },
   growU: function () {  // add a "head" in the current direction
+          console.log("grew UP");
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[1][0], //head UP X
         this.parts[this.parts.length - 1][1] + this.direction[1][1]] //head UP Y
     )
     board.innerHTML= "";
+    snake.applePoofScore();
     this.draw();
   },
   moveD: function () {
@@ -195,141 +222,67 @@ var snake = {
     this.draw();
   },
   growD: function () {  // add a "head" in the current direction
+          console.log("grew DOWN");
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[0][0], //head UP X
         this.parts[this.parts.length - 1][1] + this.direction[0][1]] //head UP Y
     )
     board.innerHTML= "";
+    snake.applePoofScore();
     this.draw();
+  },
+  goRight: function (){
+    snake.checkDeath();
+    if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[2][0]) === snake.apple[0]) &&
+        ((snake.parts[snake.parts.length - 1][1] + snake.direction[2][1]) === snake.apple[1]) ){
+        snake.growR();
+      snake.orientation = "right"; //yooo
+    } else {
+        snake.moveR()
+      snake.orientation = "right";
+      snake.checkDeath();
+    }
+  },
+  goLeft: function (){
+    snake.checkDeath();
+    if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[3][0] ) === snake.apple[0]) &&
+        ((snake.parts[snake.parts.length - 1][1] + snake.direction[3][1]) === snake.apple[1]) ){
+          snake.growL();
+          snake.orientation = "left"; //yooo
+    } else {
+        snake.moveL()
+      snake.orientation = "left";
+      snake.checkDeath();
+    }
+  },
+  goUp: function (){
+    snake.checkDeath();
+    if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[1][0] ) === snake.apple[0]) &&
+        ((snake.parts[snake.parts.length - 1][1] + snake.direction[1][1]) === snake.apple[1]) ){
+          snake.growU();
+          snake.orientation = "up"; //yooo
+    } else {
+        snake.moveU()
+      snake.orientation = "up";
+      snake.checkDeath();
+    }
+  },
+  goDown: function (){
+    snake.checkDeath();
+    if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[0][0] ) === snake.apple[0]) &&
+        ((snake.parts[snake.parts.length - 1][1] + snake.direction[0][1]) === snake.apple[1]) ){
+          snake.growD();
+          snake.orientation = "down"; //yooo
+    } else {
+        snake.moveD()
+      snake.orientation = "down";
+      snake.checkDeath();
+    }
   }
 }
-//    loop over parts, and update the dom
-
-// var bloc;
-//  // height: 60vw; width: 90vw;
-// var draw = function() {
-//   for(var block =0; block < tiny.length; block ++ ){
-//     bloc = document.createElement('div');
-//     bloc.className = "blocks";
-//     if (tiny[block] === 0 ) {
-//       bloc.classList.add('field');
-//     } else if (tiny[block] === 1) {
-//       bloc.classList.add('snake');
-//     } else if (tiny[block] === 2 ) {
-//       bloc.classList.add('head');
-//     } else if (tiny[block] === 3 ) {
-//       bloc.classList.add('apple');
-//     }
-//     board.appendChild(bloc);
-//   }
-// };
-
-// var viewBlocks = function() {
-//   for(var block =0; block < tiny.length; block ++ ){
-//     var arrayOfBlocks = document.getElementsByClassName('blocks');
-//     for(var i=0; i < arrayOfBlocks.length; i++){
-//       var el = arrayOfBlocks[i];
-//       if (tiny[block] === 0 ) {
-//         el.classList.add('field');
-//         if(el.classList.contains('snake')){
-//           el.classList.remove('snake')
-//           break;
-//         }
-//         if(el.classList.contains('head')){
-//           el.classList.remove('head')
-//           break;
-//         }
-//         if(el.classList.contains('apple')){
-//           el.classList.remove('apple')
-//           break;
-//         }
-//       } else if (tiny[block] === 1) {
-//         el.classList.add('snake');
-//         if(el.classList.contains('field')){
-//           el.classList.remove('field')
-//           break;
-//         }
-//         if(el.classList.contains('head')){
-//           el.classList.remove('head')
-//           break;
-//         }
-//         if(el.classList.contains('apple')){
-//           el.classList.remove('apple')
-//           break;
-//         }
-//       } else if (tiny[block] === 2 ) {
-//         el.classList.add('head');
-//         if(el.classList.contains('field')){
-//           el.classList.remove('field')
-//           break;
-//         }
-//         if(el.classList.contains('snake')){
-//           el.classList.remove('snake')
-//           break;
-//         }
-//         if(el.classList.contains('apple')){
-//           el.classList.remove('apple')
-//           break;
-//         }
-//       } else if (tiny[block] === 3 ) {
-//         el.classList.add('apple');
-//         if(el.classList.contains('field')){
-//           el.classList.remove('field')
-//           break;
-//         }
-//         if(el.classList.contains('snake')){
-//           el.classList.remove('snake')
-//           break;
-//         }
-//         if(el.classList.contains('head')){
-//           el.classList.remove('head')
-//           break;
-//         }
-//       }
-//     }
-//     break;
-//   }
-// };
-
-//
-// var growByOneBlock = function (){
-//   console.log("growByOneBlock is running")
-//   for (var current = 0; current < tiny.length; current++) {
-//     console.log( tiny[current]);
-//     if ( (tiny[current] === 2) && ( tiny[current+1] === 0)  ) {
-//       tiny[current+1] = 2;
-//       tiny[current] = 1;
-//       console.log(tiny);
-//       viewBlocks();
-//       break;
-//     }
-//   }
-// }
-
-// var frameBlocks = function() {
-//   for(var block =0; block < tiny.length; block ++ ){
-//     bloc = document.getElementsByClassName('blocks');
-//     if (tiny[block] === 0 ) {
-//       bloc.classList.add('field');
-//     } else if (tiny[block] === 1) {
-//       bloc.classList.add('snake');
-//     } else if (tiny[block] === 2 ) {
-//       bloc.classList.add('head');
-//     } else if (tiny[block] === 3 ) {
-//       bloc.classList.add('apple');
-//     }
-//     board.appendChild(bod);
-//   }
-// };
-
-// var left = 0;
-// var top = 0;
-// var direction = "right";
-// var goRight = function() {
-//   direction = "right";
-//   setInterval( function(){       //this will make things move right on its own
-//   if((left < 80) &&(direction === "right")){    // this will limit the bod from leaving the page
-//     left = left + 4;
-//     bod.style.left = left + "vw";
-//   }} , 300)
-//   }
+//bugs:
+// 1. I need a to grow snake upon approach. CHECK
+// 2. I need to fix the go horizontal grow bug where both grow and move work. CHECK
+// 3. I need to put walls and die when I hit them and hit self (snake) CHECK --
+// 4. I need a die function CHECK
+// 4. I need to make the apple disappear when I eat it. CHECK

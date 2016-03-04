@@ -4,14 +4,44 @@
   border: 0;
 }
 
-.grid {
-  border: 2px solid black;
+.container {
+
 }
 
+.main {
+    display: block;
+  }
+
+.up {
+    text-align: center;
+}
+
+.phone {
+  background-color: blue;
+  color: white;
+  width: 50vw;
+  margin: 0 auto;
+}
+
+.greeting {
+  font-size: 12vw;
+}
+
+  .display {
+    border: 2px solid red;
+    text-align: center;
+  }
+
+  .down {
+      margin-bottom: 4vw;
+  }
+
 #board {
-  background-color: pink;
-  height: 50vw;
-  width: 90vw;
+  background-color: #f5f5dc;
+  height: 40vw;
+  width: 40vw;
+  border: 2px dashed orange;
+  margin: 0 auto;
 }
 
 .blocks {
@@ -23,6 +53,7 @@
   width: 1vw;
   background-color: #f5f5dc;
   position: relative;
+  opacity: 0;
 }
 
 .snake {
@@ -30,6 +61,8 @@
   width: 1vw;
   background-color: #39FF14;
   position: relative;
+  opacity: 1;
+
 }
 
 .head {
@@ -44,4 +77,5 @@
   width: 1vw;
   background-color: #FF3A59;
   position: relative;
+  border-radius: 80%;
 }
