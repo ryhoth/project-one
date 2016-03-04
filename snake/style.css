@@ -2,10 +2,12 @@
   margin: 0;
   padding: 0;
   border: 0;
+  box-sizing: border-box;
 }
 
 .container {
-
+  height: 100%;
+  width: 100%;
 }
 
 .main {
@@ -20,21 +22,70 @@
   background-color: blue;
   color: white;
   width: 50vw;
+  height: 55vw;
   margin: 0 auto;
+  border-radius: 15%;
+
 }
 
-.greeting {
-  font-size: 12vw;
+.under {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+.logo {
+  font-size: 5vw;
+}
+
+.top {
+  width: 40vw;
+  margin: 0 auto;
+  border: 2px dashed orange;
+  background-color: #f5f5dc;
+  border-bottom: none;
+    color: black;
 }
 
   .display {
-    border: 2px solid red;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+    align-content: center;
+  }
+
+.in {
+      background-color: #f5f5dc;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      color: black;
+      margin: 0;
+      border: 2px dashed orange;
+      border-top: none;
+}
+
+.left {
+    width: 30vw;
+    border-right: none;
+}
+
+.right {
+    width: 10vw;
+}
+
+  .start {
+    width: 10vw;
+    background-color: red;
+    margin: 0 auto;
   }
 
   .down {
       margin-bottom: 4vw;
   }
+
+/*the game*/
 
 #board {
   background-color: #f5f5dc;
@@ -49,33 +100,33 @@
 }
 
 .field {
-  height: 1vw;
-  width: 1vw;
+  height: 2vw;
+  width: 2vw;
   background-color: #f5f5dc;
   position: relative;
   opacity: 0;
 }
 
 .snake {
-  height: 1vw;
-  width: 1vw;
+  height: 2vw;
+  width: 2vw;
   background-color: #39FF14;
   position: relative;
   opacity: 1;
-
+  border-radius: 40%;
 }
 
 .head {
-  height: 1vw;
-  width: 1vw;
+  height: 2vw;
+  width: 2vw;
   background-color: #30D911;
   position: relative;
 }
 
 .apple {
-  height: 1vw;
-  width: 1vw;
+  height: 2vw;
+  width: 2vw;
   background-color: #FF3A59;
   position: relative;
-  border-radius: 80%;
+  border-radius: 100%;
 }

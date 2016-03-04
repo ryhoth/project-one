@@ -1,9 +1,16 @@
 window.onload = function() {
   console.log("JS loaded");
   snake.play();
+  // snake.start()
 }
 
+// var message = document.getElementsByClassName('message'),
+// var scor = document.getElementsByClassName('score'),
+
+
 var snake = {
+  // startButton: startButton = document.querySelector('.start'),
+  // start: function(){ startButton.addEventListener('click', this.play ),
   play: function(){
     snake.activateKeys();
     snake.draw();
@@ -11,13 +18,13 @@ var snake = {
     snake.appleRando();
   },
   game: true,
-  size: 40,
+  size: 20,
   time: 100,
   score: 0,
   parts : [ // a part is a [row, col] combo
-    [0, 0], // tail
-    [0, 1],
-    [0, 2], // head
+    [5, 2], // tail
+    [6, 2],
+    [7, 2], // head
   ],
   appleRando: function () { //random apples to pop up in coordinates that differ from parts
     setInterval( function(){
@@ -36,6 +43,7 @@ var snake = {
     snake.apple[0]= -100;
     snake.apple[1]= -100;
     snake.score += 1;
+    snake.time -= 1;
     console.log(snake.score)
   },
   appleTime: 4000,
@@ -82,6 +90,8 @@ var snake = {
             for(var part = 0 ; part < this.parts.length; part++ ){
               if ((this.parts[part][0] === rw ) && ( this.parts[part][1] === cl )) {
                 cell.classList.add("snake");
+              } else if ((snake.parts[snake.parts.length - 1][0] === rw ) && ( snake.parts[snake.parts.length - 1][1] === cl )) {
+                cell.classList.add("head");
               } else if ( (this.apple[0] === rw) && (this.apple[1] == cl) ) {
                 cell.classList.add("apple");
               } else {
@@ -235,7 +245,9 @@ var snake = {
     snake.checkDeath();
     if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[2][0]) === snake.apple[0]) &&
         ((snake.parts[snake.parts.length - 1][1] + snake.direction[2][1]) === snake.apple[1]) ){
-        snake.growR();
+          // for (var i = 0; i < 2; i++) {
+            snake.growR();
+          // }
       snake.orientation = "right"; //yooo
     } else {
         snake.moveR()
@@ -247,7 +259,9 @@ var snake = {
     snake.checkDeath();
     if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[3][0] ) === snake.apple[0]) &&
         ((snake.parts[snake.parts.length - 1][1] + snake.direction[3][1]) === snake.apple[1]) ){
-          snake.growL();
+          // for (var i = 0; i < 2; i++) {
+            snake.growL();
+        // }
           snake.orientation = "left"; //yooo
     } else {
         snake.moveL()
@@ -259,7 +273,9 @@ var snake = {
     snake.checkDeath();
     if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[1][0] ) === snake.apple[0]) &&
         ((snake.parts[snake.parts.length - 1][1] + snake.direction[1][1]) === snake.apple[1]) ){
+          // for (var i = 0; i < 2; i++) {
           snake.growU();
+        // }
           snake.orientation = "up"; //yooo
     } else {
         snake.moveU()
@@ -271,7 +287,9 @@ var snake = {
     snake.checkDeath();
     if( (( snake.parts[snake.parts.length - 1][0] + snake.direction[0][0] ) === snake.apple[0]) &&
         ((snake.parts[snake.parts.length - 1][1] + snake.direction[0][1]) === snake.apple[1]) ){
+        // for (var i = 0; i < 2; i++) {
           snake.growD();
+        // }
           snake.orientation = "down"; //yooo
     } else {
         snake.moveD()
