@@ -4,13 +4,11 @@ window.onload = function() {
   // snake.start()
 }
 
-// var message = document.getElementsByClassName('message'),
-// var scor = document.getElementsByClassName('score'),
-
-
 var snake = {
-  // startButton: startButton = document.querySelector('.start'),
-  // start: function(){ startButton.addEventListener('click', this.play ),
+  startButton: startButton = document.getElementById('start'),
+  start: startButton.addEventListener('click' , function(){ snake.play()}),
+  message: message = document.getElementById('message'),
+  scor: scor = document.getElementById('score'),
   play: function(){
     snake.activateKeys();
     snake.draw();
@@ -19,9 +17,10 @@ var snake = {
   },
   game: true,
   size: 20,
-  time: 100,
+  time: 200,
   score: 0,
   parts : [ // a part is a [row, col] combo
+    [4, 2],
     [5, 2], // tail
     [6, 2],
     [7, 2], // head
@@ -43,7 +42,11 @@ var snake = {
     snake.apple[0]= -100;
     snake.apple[1]= -100;
     snake.score += 1;
-    snake.time -= 1;
+    snake.time -= 3;
+    scor.innerHTML= "Score: "+snake.score;
+    this.message.innerHTML = "GULP!";
+    setTimeout( function(){
+      this.message.innerHTML = "Apples.... Yumm....";}, 1000);
     console.log(snake.score)
   },
   appleTime: 4000,
@@ -76,7 +79,7 @@ var snake = {
   die: function(){
     // snake.game = false;
     clearInterval(act);
-    alert("GAME OVER! You scored " + snake.score + " points!")
+    this.message.innerHTML = "Game Over! Press Play again."
   },
 
   board: board = document.getElementById('board'),

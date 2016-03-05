@@ -41,11 +41,13 @@
 
 .top {
   width: 40vw;
+  height: 2.2vw;
   margin: 0 auto;
   border: 2px dashed orange;
   background-color: #f5f5dc;
   border-bottom: none;
     color: black;
+    font-family: 'Press Start 2P';
 }
 
   .display {
@@ -60,22 +62,26 @@
       display: flex;
       flex-direction: row;
       justify-content: center;
+      height: 3vw;
       color: black;
       margin: 0;
       border: 2px dashed orange;
       border-top: none;
+      font-family: 'Press Start 2P';
+      font-size: 1.3vw;
+
 }
 
 .left {
-    width: 30vw;
+    width: 28vw;
     border-right: none;
 }
 
 .right {
-    width: 10vw;
+    width: 12vw;
 }
 
-  .start {
+  #start {
     width: 10vw;
     background-color: red;
     margin: 0 auto;
