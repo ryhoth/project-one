@@ -1,15 +1,16 @@
 window.onload = function() {
   console.log("JS loaded");
   snake.play();
-  // snake.start()
 }
 
 var snake = {
   startButton: startButton = document.getElementById('start'),
-  start: startButton.addEventListener('click' , function(){ snake.play()}),
   message: message = document.getElementById('message'),
   scor: scor = document.getElementById('score'),
   play: function(){
+    startButton.addEventListener('click' , function(){
+    window.location.reload();
+    }),
     snake.activateKeys();
     snake.draw();
     snake.action();

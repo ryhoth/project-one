@@ -91,6 +91,18 @@
       margin-bottom: 4vw;
   }
 
+/*#message {
+  font-opacit: opacity: 0.6;
+}
+
+#score {
+  opacity: 0.6;
+}
+
+#message {
+  opacity: 0.6;
+}*/
+
 /*the game*/
 
 #board {
