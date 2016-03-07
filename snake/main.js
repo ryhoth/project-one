@@ -3,6 +3,14 @@ window.onload = function() {
   snake.play();
 }
 
+
+//bugs:
+// 1. I need a to grow snake upon approach. CHECK
+// 2. I need to fix the go horizontal grow bug where both grow and move work. CHECK
+// 3. I need to put walls and die when I hit them and hit self (snake) CHECK --
+// 4. I need a die function CHECK
+// 4. I need to make the apple disappear when I eat it. CHECK
+
 var snake = {
   startButton: startButton = document.getElementById('start'),
   message: message = document.getElementById('message'),
@@ -43,7 +51,7 @@ var snake = {
     snake.apple[0]= -100;
     snake.apple[1]= -100;
     snake.score += 1;
-    snake.time -= 3;
+    snake.time -= 10;
     scor.innerHTML= "Score: "+snake.score;
     this.message.innerHTML = "GULP!";
     setTimeout( function(){
@@ -302,9 +310,3 @@ var snake = {
     }
   }
 }
-//bugs:
-// 1. I need a to grow snake upon approach. CHECK
-// 2. I need to fix the go horizontal grow bug where both grow and move work. CHECK
-// 3. I need to put walls and die when I hit them and hit self (snake) CHECK --
-// 4. I need a die function CHECK
-// 4. I need to make the apple disappear when I eat it. CHECK
