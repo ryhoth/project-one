@@ -2,7 +2,7 @@ window.onload = function() {
   console.log("JS loaded");
   createBodyBlocks();
   activateKeys();
-}
+};
 var bod;
 var board = document.getElementById('board'); // height: 60vw; width: 90vw;
 var createBodyBlocks = function() {
@@ -30,8 +30,8 @@ var activateKeys = function () {
               goDown();
               break;
       }
-    }
-}
+    };
+};
 var left = 0;
 var top = 0;
 var direction = "right";
@@ -41,16 +41,16 @@ var goRight = function() {
   if((left < 80) &&(direction === "right")){    // this will limit the bod from leaving the page
     left = left + 4;
     bod.style.left = left + "vw";
-  }} , 300)
-  }
+  }} , 300);
+};
 var goLeft = function() {
   direction = "left";
   setInterval( function(){       //this will make things move left on its own
   if((left > 0) &&(direction === "left")){
     left = left - 4;
     bod.style.left = left + "vw";
-      }}, 300)
-}
+  }}, 300);
+};
 // var goUp = function() {
 //     direction = "up";
 //     setInterval( function(){       //this will make things move left on its own

@@ -1,7 +1,7 @@
 window.onload = function() {
   console.log("JS loaded");
   snake.play();
-}
+};
 
 
 //bugs:
@@ -26,11 +26,11 @@ var snake = {
   },
   game: true,
   size: 20,
-  time: 200,
+  time: 100,
   score: 0,
   parts : [ // a part is a [row, col] combo
-    [4, 2],
-    [5, 2], // tail
+    [4, 2], // tail
+    [5, 2],
     [6, 2],
     [7, 2], // head
   ],
@@ -39,24 +39,28 @@ var snake = {
     var x = ~~(Math.random()* snake.size);
     var y = ~~(Math.random()* snake.size);
     for(var part = 0 ; part < snake.parts.length; part++ ){
-      if ((snake.parts[part][0] !== x ) && ( snake.parts[part][1] !== y )) {
+      if ((snake.parts[part][0] === x ) && ( snake.parts[part][1] === y )) {
+        snake.appleRando();
+      } else {
         snake.apple[0] = x;
         snake.apple[1] = y;
       }
       board.innerHTML= "";
       snake.draw();
     }
-  } , snake.appleTime)},
+  }, snake.appleTime)},
+
   applePoofScore: function(){
     snake.apple[0]= -100;
     snake.apple[1]= -100;
     snake.score += 1;
     snake.time -= 10;
+    console.log(snake.time);
     scor.innerHTML= "Score: "+snake.score;
     this.message.innerHTML = "GULP!";
     setTimeout( function(){
       this.message.innerHTML = "Apples.... Yumm....";}, 1000);
-    console.log(snake.score)
+    console.log(snake.score);
   },
   appleTime: 4000,
   apple: [10, 10],
@@ -70,16 +74,15 @@ var snake = {
     if(snake.game){
         act = setInterval( function(){
         if (snake.orientation =="right") {
-            snake.goRight()
+            snake.goRight();
         } else if (snake.orientation === "left") {
-              snake.goLeft()
+              snake.goLeft();
         } else if (snake.orientation === "up") {
-              snake.goUp()
+              snake.goUp();
         } else if (snake.orientation === "down") {
-              snake.goDown()
+              snake.goDown();
         }
-      }
-    , snake.time)
+      }, snake.time);
     }
   },
 
@@ -88,7 +91,7 @@ var snake = {
   die: function(){
     // snake.game = false;
     clearInterval(act);
-    this.message.innerHTML = "Game Over! Press Play again."
+    this.message.innerHTML = "Game Over! Press Play again.";
   },
 
   board: board = document.getElementById('board'),
@@ -126,31 +129,31 @@ var snake = {
                   break;
                 } else {
                   break;
-                };
+                }
               case 38:
               if ((snake.orientation !== "up")&&( snake.orientation !== "down")){
                   snake.goUp();
                   break;
                 } else {
                   break;
-                };
+                }
               case 39:
               if ((snake.orientation !== "left")&&( snake.orientation !== "right")) {
                   snake.goRight();
                   break;
                 } else {
                   break;
-                };
+                }
               case 40:
               if ((snake.orientation !== "up")&&( snake.orientation !== "down")){
                   snake.goDown();
                   break;
                 } else {
                   break;
-                };
+                }
           }
         // }
-      }
+      };
   },
 
   checkDeath: function() {
@@ -159,24 +162,24 @@ var snake = {
         (snake.parts[snake.parts.length - 1][1] > snake.size-1 ) ||
         (snake.parts[snake.parts.length - 1][1] < 0 ) ) {
         snake.die();
-      console.log("FUCK YOU DEAD!")
+      console.log("FUCK YOU DEAD!");
     }
     for(var part = 0 ; part < snake.parts.length -1; part++ ){
       if ( (snake.parts[snake.parts.length - 1][0] === snake.parts[part][0] ) &&
       (  snake.parts[snake.parts.length - 1][1] === snake.parts[part][1] )) {
         snake.die();
-        console.log("YOU FUCKING YO SELF!")
+        console.log("YOU FUCKING YO SELF!");
       }
     }
   },
   moveR: function () {
     // remove the "tail"
-    this.parts.shift()                                              //just going to remove the last
+    this.parts.shift();                                             //just going to remove the last
     // add a "head" in the current direction
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[2][0], //head RIGHT X
         this.parts[this.parts.length - 1][1] + this.direction[2][1]] //head RIGHT Y
-    )
+    );
     board.innerHTML= "";
     this.draw();
   },
@@ -185,7 +188,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[2][0], //head RIGHT X
         this.parts[this.parts.length - 1][1] + this.direction[2][1]] //head RIGHT Y
-    )
+    );
     board.innerHTML= "";
     snake.applePoofScore();
     this.draw();
@@ -197,7 +200,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[3][0], //head LEFT X
         this.parts[this.parts.length - 1][1] + this.direction[3][1]] //head LEFT Y
-    )
+    );
     board.innerHTML= "";
     this.draw();
   },
@@ -206,7 +209,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[3][0], //head LEFT X
         this.parts[this.parts.length - 1][1] + this.direction[3][1]] //head LEFT Y
-    )
+    );
     board.innerHTML= "";
     snake.applePoofScore();
     this.draw();
@@ -218,7 +221,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[1][0], //head UP X
         this.parts[this.parts.length - 1][1] + this.direction[1][1]] //head UP Y
-    )
+    );
     board.innerHTML= "";
     this.draw();
   },
@@ -227,7 +230,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[1][0], //head UP X
         this.parts[this.parts.length - 1][1] + this.direction[1][1]] //head UP Y
-    )
+    );
     board.innerHTML= "";
     snake.applePoofScore();
     this.draw();
@@ -239,7 +242,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[0][0], //head UP X
         this.parts[this.parts.length - 1][1] + this.direction[0][1]] //head UP Y
-    )
+    );
     board.innerHTML= "";
     this.draw();
   },
@@ -248,7 +251,7 @@ var snake = {
     this.parts.push(
       [ this.parts[this.parts.length - 1][0] + this.direction[0][0], //head UP X
         this.parts[this.parts.length - 1][1] + this.direction[0][1]] //head UP Y
-    )
+    );
     board.innerHTML= "";
     snake.applePoofScore();
     this.draw();
@@ -262,7 +265,7 @@ var snake = {
           // }
       snake.orientation = "right"; //yooo
     } else {
-        snake.moveR()
+        snake.moveR();
       snake.orientation = "right";
       snake.checkDeath();
     }
@@ -276,7 +279,7 @@ var snake = {
         // }
           snake.orientation = "left"; //yooo
     } else {
-        snake.moveL()
+        snake.moveL();
       snake.orientation = "left";
       snake.checkDeath();
     }
@@ -290,7 +293,7 @@ var snake = {
         // }
           snake.orientation = "up"; //yooo
     } else {
-        snake.moveU()
+        snake.moveU();
       snake.orientation = "up";
       snake.checkDeath();
     }
@@ -304,9 +307,9 @@ var snake = {
         // }
           snake.orientation = "down"; //yooo
     } else {
-        snake.moveD()
+        snake.moveD();
       snake.orientation = "down";
       snake.checkDeath();
     }
   }
-}
+};
