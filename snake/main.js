@@ -10,6 +10,7 @@ window.onload = function() {
 // 3. I need to put walls and die when I hit them and hit self (snake) CHECK --
 // 4. I need a die function CHECK
 // 4. I need to make the apple disappear when I eat it. CHECK
+// time does not decrease when apple is eaten, action is using original snake.time 
 
 var snake = {
   startButton: startButton = document.getElementById('start'),
